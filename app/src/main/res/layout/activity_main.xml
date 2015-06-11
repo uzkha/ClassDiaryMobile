@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/main_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#015488">
+
+        <TextView
+            android:id="@+id/aluno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="80dp"
+            android:clickable="true"
+            android:drawableTop="@drawable/aluno"
+            android:onClick="alunoOnclick"
+            android:text="Alunos"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/chamada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableTop="@drawable/chamada"
+            android:onClick="chamadaOnclick"
+            android:text="Chamada"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/aluno"
+            android:layout_centerHorizontal="true" />
+
+
+        <TextView
+            android:id="@+id/disciplina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableTop="@drawable/disciplina"
+            android:onClick="disciplinaOnclick"
+            android:text="Disciplinas"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginRight="45dp"
+            android:layout_marginEnd="45dp"
+            android:layout_alignTop="@+id/chamada"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+        <TextView
+            android:id="@+id/professor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableTop="@drawable/professor"
+            android:onClick="professorOnclick"
+            android:text="Professores"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/turma"
+            android:layout_alignRight="@+id/aluno"
+            android:layout_alignEnd="@+id/aluno" />
+
+        <TextView
+            android:id="@+id/turma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableTop="@drawable/turma"
+            android:onClick="turmaOnclick"
+            android:text="Turmas"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/configuracao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableTop="@drawable/configuracao"
+            android:onClick="configuracaoOnClick"
+            android:text="Configurações"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/turma"
+            android:layout_alignLeft="@+id/disciplina"
+            android:layout_alignStart="@+id/disciplina" />
+
+    </RelativeLayout>
+</LinearLayout>

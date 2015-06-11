@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Class Diary</string>
+
+    <string name="class_diary">Bem Vindo ao Class Diary!</string>
+    <string name="action_settings">Opções</string>
+    <string name="main_text">Controle de Frequencia</string>
+</resources>
