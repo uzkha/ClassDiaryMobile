@@ -4,4 +4,8 @@
     <string name="class_diary">Bem Vindo ao Class Diary!</string>
     <string name="action_settings">Opções</string>
     <string name="main_text">Controle de Frequencia</string>
+    <string name="title_activity_turma">TurmaActivity</string>
+    <string name="turma_text">Manutenção de Turmas</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
