@@ -2,6 +2,8 @@ package com.br.classdiary;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +16,11 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.br.classdiary.Connection.TurmaRest;
+import com.br.classdiary.factory.DatabaseHelper;
+import com.br.classdiary.model.Turma;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,24 +31,75 @@ import java.util.Map;
 public class TurmaActivity extends ListActivity {
 
     private List<Map<String, Object>> turmas;
+    private DatabaseHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //consumindo JSON
+        //consumindo JSON para atualizacao das turmas
+        List<Turma> listaTurmas = null;
+        try {
+
+            // prepara acesso ao banco de dados
+            helper = new DatabaseHelper(this);
+
+            listaTurmas = sincronizarTurmaRest();
+
+            deletarTurmas();
+
+            inserirTurmas(listaTurmas);
+
+            listarTurmas();
+
+        } catch (Exception e) {
+            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+            toast.show();
+            e.printStackTrace();
+        }
 
 
-        String[] de = {"turmaId", "turmaNome"};
-        int[] para = {R.id.turmaId, R.id.turmaNome};
 
-        SimpleAdapter adapter = new SimpleAdapter(this, listarTurmas(),
-                R.layout.activity_turma, de, para);
-        setListAdapter(adapter);
-
-        //getListView().setOnItemClickListener(this);
     }
 
+    private void inserirTurmas(List<Turma> listaTurmas) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        for(Turma turma : listaTurmas) {
+
+            ContentValues values = new ContentValues();
+            values.put("_id", turma.getId());
+            values.put("nome", turma.getNome());
+
+            long resultado = db.insert("turma", null, values);
+            if(resultado == -1 ){
+                Toast.makeText(this, "Ocorreu um erro ao salvar a turma " + turma.getNome(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
+
+    private void deletarTurmas() {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        db.delete("turma",null,null);
+
+    }
+
+
+
+    private List<Turma> sincronizarTurmaRest() throws Exception {
+
+        TurmaRest turmaRest = new TurmaRest();
+        List<Turma> listaTurmas = new ArrayList<Turma>();
+        listaTurmas = turmaRest.getListaTurma();
+
+        return listaTurmas;
+    }
 
 
     private List<Map<String, Object>> listarTurmas() {
@@ -75,5 +133,12 @@ public class TurmaActivity extends ListActivity {
                 Toast.LENGTH_SHORT).show();
         //startActivity(new Intent(this, GastoListActivity.class));
     }*/
+
+
+    @Override
+    protected void onDestroy() {
+        helper.close();
+        super.onDestroy();
+    }
 
 }
