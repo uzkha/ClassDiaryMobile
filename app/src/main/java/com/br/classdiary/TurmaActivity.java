@@ -3,6 +3,7 @@ package com.br.classdiary;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.br.classdiary.factory.DatabaseHelper;
 import com.br.classdiary.model.Turma;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ public class TurmaActivity extends ListActivity {
 
     private List<Map<String, Object>> turmas;
     private DatabaseHelper helper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +53,29 @@ public class TurmaActivity extends ListActivity {
 
             inserirTurmas(listaTurmas);
 
-            listarTurmas();
+            carregarView();
 
         } catch (Exception e) {
             Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
             toast.show();
             e.printStackTrace();
+
+            finish();
         }
 
 
+
+    }
+
+    private void carregarView() {
+
+        String[] de = {"turmaId", "turmaNome"};
+        int[] para = {R.id.turmaId, R.id.turmaNome};
+
+        SimpleAdapter adapter =
+                new SimpleAdapter(this, listarTurmas(),
+                        R.layout.activity_turma, de, para);
+        setListAdapter(adapter);
 
     }
 
@@ -103,9 +120,38 @@ public class TurmaActivity extends ListActivity {
 
 
     private List<Map<String, Object>> listarTurmas() {
+
+        //inicia consulta
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor =  db.rawQuery("SELECT _id, nome FROM turma",  null);
+
+        //move cursor para primeiro registro
+        cursor.moveToFirst();
+
         turmas = new ArrayList<Map<String,Object>>();
 
-        Map<String, Object> item = new HashMap<String, Object>();
+        for (int i = 0; i < cursor.getCount(); i++) {
+
+            Map<String, Object> item = new HashMap<String, Object>();
+
+            int id      = cursor.getInt(0);
+            String nome  = cursor.getString(1);
+
+            item.put("turmaId", id);
+            item.put("turmaNome", nome);
+
+            turmas.add(item);
+            //move cursor proximo registro
+            cursor.moveToNext();
+        }
+
+        //fecha cursor
+        cursor.close();
+
+        return turmas;
+
+        //forma manual
+        /*Map<String, Object> item = new HashMap<String, Object>();
         item.put("turmaId", 1);
         item.put("turmaNome", "Web 3.0");
         turmas.add(item);
@@ -118,9 +164,9 @@ public class TurmaActivity extends ListActivity {
         item = new HashMap<String, Object>();
         item.put("turmaId", 3);
         item.put("turmaNome", "Governança TI");
-        turmas.add(item);
+        turmas.add(item);*/
 
-        return turmas;
+
     }
 
     /*

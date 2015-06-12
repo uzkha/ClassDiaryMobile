@@ -32,7 +32,7 @@ public class TurmaRest {
             }
             return listaTurma;
         } else {
-            throw new Exception(resposta[1]);
+            throw new Exception("Falha ao sincronizar dados com o servidor: " + resposta[1]);
         }
     }
 }
