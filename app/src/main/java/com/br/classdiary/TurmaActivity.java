@@ -32,8 +32,6 @@ public class TurmaActivity extends ListActivity implements AdapterView.OnItemCli
     private List<Map<String, Object>> turmas;
     private DatabaseHelper helper;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +59,6 @@ public class TurmaActivity extends ListActivity implements AdapterView.OnItemCli
 
             finish();
         }
-
-
 
     }
 
