@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
         startActivity(new Intent(this, TurmaActivity.class));
     }
 
-    public void configuracaoOnClick(View view) {
+    public void syncOnClick(View view) {
         emConstrucao();
     }
 }

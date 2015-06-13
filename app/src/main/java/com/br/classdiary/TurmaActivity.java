@@ -1,10 +1,15 @@
 package com.br.classdiary;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,6 +31,7 @@ public class TurmaActivity extends ListActivity implements AdapterView.OnItemCli
 
     private List<Map<String, Object>> turmas;
     private DatabaseHelper helper;
+
 
 
     @Override
@@ -71,6 +77,11 @@ public class TurmaActivity extends ListActivity implements AdapterView.OnItemCli
 
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
+
+        // registramos aqui o novo menu de contexto
+        registerForContextMenu(getListView());
+
+
 
     }
 
@@ -156,12 +167,30 @@ public class TurmaActivity extends ListActivity implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent,
                             View view, int position, long id) {
-
-        Map<String, Object> map = turmas.get(position);
-        String turmaNome = (String) map.get("turmaNome");
-
-        Toast.makeText(this, "cliquei " + turmaNome, Toast.LENGTH_SHORT).show();
-
-        //startActivity(new Intent(this, GastoListActivity.class));
+       Toast.makeText(this, "Pressione o registro para obter o menu de opções.", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.remover) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+                    .getMenuInfo();
+            turmas.remove(info.position);
+            getListView().invalidateViews();
+
+
+            // remover do banco de dados
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_turma, menu);
+    }
+
+
 }

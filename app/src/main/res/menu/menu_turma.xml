@@ -1,6 +1,18 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="com.br.classdiary.TurmaActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/novo"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/novo"/>
+
+    <item
+        android:id="@+id/editar"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/editar"/>
+
+    <item
+        android:id="@+id/remover"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/remover"/>
 </menu>
