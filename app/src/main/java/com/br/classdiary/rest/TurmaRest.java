@@ -1,4 +1,4 @@
-package com.br.classdiary.Connection;
+package com.br.classdiary.rest;
 
 
 import android.os.StrictMode;

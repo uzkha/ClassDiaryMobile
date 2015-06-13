@@ -1,4 +1,4 @@
-package com.br.classdiary.Connection;
+package com.br.classdiary.rest;
 
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;

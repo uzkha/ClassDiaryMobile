@@ -1,4 +1,4 @@
-package com.br.classdiary.factory;
+package com.br.classdiary.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,4 +1,4 @@
-package com.br.classdiary.Connection;
+package com.br.classdiary.rest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import android.util.Log;
+
+import com.br.classdiary.rest.HttpClientSingleton;
 
 public class WebServiceCliente {
 

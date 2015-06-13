@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void turmaOnclick(View view) {
 
-        Toast toast = Toast.makeText(this, "Sincronizando...aguarde...", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, "Sincronizando...aguarde...", Toast.LENGTH_SHORT);
         toast.show();
 
         startActivity(new Intent(this, TurmaActivity.class));

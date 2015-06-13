@@ -1,36 +1,28 @@
 package com.br.classdiary;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.br.classdiary.Connection.TurmaRest;
-import com.br.classdiary.factory.DatabaseHelper;
+import com.br.classdiary.rest.TurmaRest;
+import com.br.classdiary.dao.DatabaseHelper;
 import com.br.classdiary.model.Turma;
-import com.google.gson.Gson;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class TurmaActivity extends ListActivity {
+public class TurmaActivity extends ListActivity implements AdapterView.OnItemClickListener {
 
     private List<Map<String, Object>> turmas;
     private DatabaseHelper helper;
@@ -55,6 +47,7 @@ public class TurmaActivity extends ListActivity {
 
             carregarView();
 
+
         } catch (Exception e) {
             Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
             toast.show();
@@ -75,11 +68,13 @@ public class TurmaActivity extends ListActivity {
         SimpleAdapter adapter =
                 new SimpleAdapter(this, listarTurmas(),
                         R.layout.activity_turma, de, para);
+
         setListAdapter(adapter);
+        getListView().setOnItemClickListener(this);
 
     }
 
-    private void inserirTurmas(List<Turma> listaTurmas) {
+    private void inserirTurmas(List<Turma> listaTurmas) throws Exception {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -91,8 +86,7 @@ public class TurmaActivity extends ListActivity {
 
             long resultado = db.insert("turma", null, values);
             if(resultado == -1 ){
-                Toast.makeText(this, "Ocorreu um erro ao salvar a turma " + turma.getNome(),
-                        Toast.LENGTH_LONG).show();
+                throw new Exception("Falha ao inserir os dados");
             }
 
         }
@@ -149,36 +143,8 @@ public class TurmaActivity extends ListActivity {
         cursor.close();
 
         return turmas;
-
-        //forma manual
-        /*Map<String, Object> item = new HashMap<String, Object>();
-        item.put("turmaId", 1);
-        item.put("turmaNome", "Web 3.0");
-        turmas.add(item);
-
-        item = new HashMap<String, Object>();
-        item.put("turmaId", 2);
-        item.put("turmaNome", "Gerencia Projeto");
-        turmas.add(item);
-
-        item = new HashMap<String, Object>();
-        item.put("turmaId", 3);
-        item.put("turmaNome", "Governança TI");
-        turmas.add(item);*/
-
-
     }
 
-    /*
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-        TextView textView = (TextView) view;
-        String mensagem = "Turma selecionada: " + textView.getText();
-        Toast.makeText(getApplicationContext(), mensagem,
-                Toast.LENGTH_SHORT).show();
-        //startActivity(new Intent(this, GastoListActivity.class));
-    }*/
 
 
     @Override
@@ -187,4 +153,15 @@ public class TurmaActivity extends ListActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent,
+                            View view, int position, long id) {
+
+        Map<String, Object> map = turmas.get(position);
+        String turmaNome = (String) map.get("turmaNome");
+
+        Toast.makeText(this, "cliquei " + turmaNome, Toast.LENGTH_SHORT).show();
+
+        //startActivity(new Intent(this, GastoListActivity.class));
+    }
 }
